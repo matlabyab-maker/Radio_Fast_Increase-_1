@@ -1,6 +1,7 @@
 package com.fast.radio;
 
 import android.content.*;
+import android.app.AlertDialog;
 import android.os.*;
 import android.media.AudioManager;
 import android.media.MediaRecorder;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private VerticalRulerView qualityRuler; private VolumeRulerView volumeRuler; private RadioStation selected;
     private MediaRecorder recorder; private boolean recording=false;
     private final Handler usageHandler=new Handler(Looper.getMainLooper()); private long playStartedMs=0; private int activeKbps=15; private TextView recordLight; private static final int REQ_RECORD_AUDIO=401;
+    private Button eqButton;
     private final String[] newsNames={"Sputnik فارسی","BBC Persian","Iran International","VOA Persian","BBC News","NHK Japan"};
 
     @Override protected void onCreate(Bundle b){
@@ -43,12 +45,13 @@ public class MainActivity extends AppCompatActivity {
     private void bind(){
         customList=findViewById(R.id.customList); iranList=findViewById(R.id.iranList); worldList=findViewById(R.id.worldList); newsList=findViewById(R.id.newsList);
         status=findViewById(R.id.status); nowPlaying=findViewById(R.id.nowPlaying); qualityValue=findViewById(R.id.qualityValue); usagePerMinute=findViewById(R.id.usagePerMinute); persianCalendar=findViewById(R.id.persianCalendar); updatePersianCalendar();
-        qualityRuler=findViewById(R.id.qualityRuler); volumeRuler=findViewById(R.id.volumeRuler); recordLight=findViewById(R.id.recordLight);
+        qualityRuler=findViewById(R.id.qualityRuler); volumeRuler=findViewById(R.id.volumeRuler); recordLight=findViewById(R.id.recordLight); eqButton=findViewById(R.id.equalizer);
         tvNewsTicker=new TvNewsTicker(findViewById(R.id.tvTickerOriginal),findViewById(R.id.tvTickerPersian)); webNewsTicker=new WebsiteNewsTicker(findViewById(R.id.webTickerTitle),findViewById(R.id.webTickerText)); regionSpinner=findViewById(R.id.regionSpinner); countrySpinner=findViewById(R.id.countrySpinner); search=findViewById(R.id.search);
         qualityRuler.setListener(v->{activeKbps=v; qualityValue.setText(v+" kbps"); updateUsage(v); status.setText("Quality target: "+v+" kbps");});
         volumeRuler.setListener(v->setOutputVolume(v));
         findViewById(R.id.record).setOnClickListener(v->toggleRecording());
-        findViewById(R.id.play).setOnClickListener(v->playSelected()); findViewById(R.id.stop).setOnClickListener(v->{if(controller!=null)controller.stop();status.setText("Stopped");});
+        eqButton.setOnClickListener(v->showEqualizer());
+        findViewById(R.id.play).setOnClickListener(v->playSelected()); findViewById(R.id.stop).setOnClickListener(v->{if(controller!=null){controller.stop();} status.setText("Stopped");});
         findViewById(R.id.fav).setOnClickListener(v->{if(selected!=null)toggleFavorite(selected);});
         findViewById(R.id.searchButton).setOnClickListener(v->doSearch()); findViewById(R.id.saveList).setOnClickListener(v->saveWorldList()); findViewById(R.id.favorites).setOnClickListener(v->showFavorites());
         setupScroll(R.id.customUp,customList,true); setupScroll(R.id.customDown,customList,false); setupScroll(R.id.iranUp,iranList,true); setupScroll(R.id.iranDown,iranList,false);
@@ -109,6 +112,14 @@ public class MainActivity extends AppCompatActivity {
     }
     private void showSelected(RadioStation s){selected=s;nowPlaying.setText(s.name+"  •  "+(s.country.isEmpty()?"":s.country)+"  •  "+(s.bitrate>0?s.bitrate+" kbps":"Auto"));status.setText("Selected • target "+qualityRuler.getValue()+" kbps");}
     private void connectController(){SessionToken token=new SessionToken(this,new ComponentName(this,RadioPlaybackService.class));controllerFuture=new MediaController.Builder(this,token).buildAsync();controllerFuture.addListener(()->{try{controller=controllerFuture.get(); controller.addListener(new Player.Listener(){@Override public void onPlaybackStateChanged(int state){runOnUiThread(()->{if(state==Player.STATE_BUFFERING)status.setText("Buffering…"); else if(state==Player.STATE_READY && controller.isPlaying())status.setText("Playing • buffer active");});}});}catch(Exception e){status.setText("Controller error");}},getMainExecutor());}
+    private void showEqualizer(){
+        LinearLayout box=new LinearLayout(this); box.setOrientation(LinearLayout.VERTICAL); box.setPadding(18,8,18,8);
+        String[] labels={"60 Hz","230 Hz","910 Hz","3.6 kHz","14 kHz"};
+        int[] bands={0,1,2,3,4};
+        for(int i=0;i<labels.length;i++){ final int band=bands[i]; TextView l=new TextView(this); l.setText(labels[i]+"  0 dB"); l.setTextColor(android.graphics.Color.WHITE); box.addView(l); SeekBar bar=new SeekBar(this); bar.setMax(30); bar.setProgress(15); box.addView(bar,new LinearLayout.LayoutParams(-1,48)); bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){public void onProgressChanged(SeekBar b,int p,boolean f){int db=(p-15)*100;l.setText(labels[band]+"  "+(db>=0?"+":"")+(db/100)+" dB"); Intent in=new Intent("com.fast.radio.SET_EQ_BAND").setPackage(getPackageName());in.putExtra("band",band);in.putExtra("level",db);sendBroadcast(in);}public void onStartTrackingTouch(SeekBar b){}public void onStopTrackingTouch(SeekBar b){}}); }
+        new AlertDialog.Builder(this).setTitle("Equalizer").setView(box).setPositiveButton("OK",null).show();
+    }
+
     private void playSelected(){
         if(selected==null){status.setText("Select a station first");return;}
         String finalUrl = ProxyConfig.wrap(selected.url, qualityRuler.getValue());

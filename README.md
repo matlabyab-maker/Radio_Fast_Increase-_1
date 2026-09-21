@@ -45,3 +45,6 @@ The KBPS ruler is now sent to the proxy server as the `kbps` query parameter. Th
 
 
 Version 3.9: built-in Favorites now contain real stream URLs from the included station source list; user favorites are preserved and shown together without duplicates.
+
+
+Fast Radio 4.7: each station row has an external-player button (↗). It sends the exact station URL with ACTION_VIEW/audio intent so compatible players such as VLC or other installed media players can be selected. Web-page URLs are also passed through the same chooser.

@@ -11,7 +11,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".RadioPlaybackService" android:exported="true" android:foregroundServiceType="mediaPlayback">
+        <service android:name=".RadioPlaybackService" android:exported="true" android:foregroundServiceType="mediaPlayback" android:stopWithTask="false">
             <intent-filter>
                 <action android:name="androidx.media3.session.MediaSessionService" />
             </intent-filter>
