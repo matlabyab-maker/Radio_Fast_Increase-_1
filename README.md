@@ -23,4 +23,13 @@ The 1–400 kbps ruler is a target/selection control. It cannot transcode an arb
 Build with GitHub Actions using Java 17 and Gradle 8.13.
 
 
-Build fix: the FFmpeg decoder uses the Jellyfin Media3 FFmpeg decoder artifact because the AndroidX Media3 1.11.0 Maven coordinates do not publish `androidx.media3:media3-decoder-ffmpeg` as a directly consumable app dependency. The FFmpeg decoder is kept enabled through DefaultRenderersFactory.
+Build fix: the FFmpeg decoder uses the Jellyfin Media3 FFmpeg decoder artifact version 1.9.0+1 because the Jellyfin artifact is published at that version do not publish `androidx.media3:media3-decoder-ffmpeg` as a directly consumable app dependency. The FFmpeg decoder is kept enabled through DefaultRenderersFactory.
+
+
+## Bandwidth-reduction middleware
+
+The project now includes `server.py`, based on the supplied middleware code. Install FFmpeg on the VPS and run the server with `uvicorn server:app --host 0.0.0.0 --port 8000`.
+
+In `app/src/main/java/com/fast/radio/ProxyConfig.java`, set `SERVER_BASE_URL` to the public base URL of the VPS. When it is non-empty, selected station URLs are sent through `/stream?url=...`; when it is empty, the app keeps using the original station URL.
+
+The Android playback path is wired in `MainActivity.playSelected()`.

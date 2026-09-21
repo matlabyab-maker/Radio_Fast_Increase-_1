@@ -19,5 +19,5 @@ dependencies {
     implementation 'androidx.media3:media3-exoplayer-dash:1.11.0'
     implementation 'androidx.media3:media3-session:1.11.0'
     implementation 'androidx.media3:media3-ui:1.11.0'
-    implementation 'org.jellyfin.media3:media3-ffmpeg-decoder:1.11.0'
+    implementation 'org.jellyfin.media3:media3-ffmpeg-decoder:1.9.0+1'
 }
