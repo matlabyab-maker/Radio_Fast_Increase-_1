@@ -26,7 +26,7 @@ import android.animation.AnimatorSet;
 import android.view.animation.DecelerateInterpolator;
 import android.provider.Settings;
 
-public class MainActivity extends AppCompatActivity {
+public class WebStreamActivity extends AppCompatActivity {
     private ListView customList, iranList, worldList, newsList;
     private TextView status, nowPlaying, qualityValue, usagePerMinute;
     private final List<RadioStation> custom=new ArrayList<>(), iran=new ArrayList<>(), world=new ArrayList<>(), favorites=new ArrayList<>(), builtinFavorites=new ArrayList<>();
