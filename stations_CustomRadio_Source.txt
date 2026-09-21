@@ -1,0 +1,115 @@
+####Stations####
+BBC Live News(48k),http://as-hls-ww-live.akamaized.net/pool_53367543/live/ww/bbc_sounds_news/bbc_sounds_news.isml/bbc_sounds_news-audio%3d48000.norewind.m3u8,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRemxDuUJL4a9LiUer56WYajglJr4tFUdj4hA&s
+رادیو فرهنگ,https://s1.cdn3.iranseda.ir/liveedge/radio-farhang/playlist.m3u8,
+شبکه خبر,https://ncdn.telewebion.com/irinn/live/playlist.m3u8,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYyxR3Rnq7rNizBn_oU-i9saE8LGbowVpShg&s
+پيام,http://s1.cdn1.iranseda.ir:1935/liveedge/radio-payam/playlist.m3u8,
+رادیو سلامت,https://s2.cdn3.iranseda.ir/liveedge/radio-salamat/playlist.m3u8,
+BBC NEWS(TV-England),https://vs-hls-push-ww-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_news_channel_hd/mobile_wifi_main_sd_abr_v2.m3u8,https://upload.wikimedia.org/wikipedia/en/thumb/2/24/BBC_News_HD_Logo.svg/300px-BBC_News_HD_Logo.svg.png?20231114034940
+Netherland1(Fast&POWER),http://stream.rtvkatwijk.nl:8000,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSd8MKUYlG06SXFph2vBGNiafxYnI2hAxBWAFLbO97Ul_GZVIEgpoaUxE&s
+CCTV CGTN,https://english-livetx.cgtn.com/hls/yypdyyctzb_sd.m3u8,https://news.cgtn.com/news/2022-03-03/Live-CGTN-on-Live-186JX8LMSLm/img/be311c3e25724c389c12fcc465d7817a/be311c3e25724c389c12fcc465d7817a.jpeg
+ABC News-Australia,http://abc.streamguys1.com/live/newsradio/icecast.audio,https://live-production.wcms.abc-cdn.net.au/21b0d1767efbf09b96ab726650be17f3?impolicy=wcms_crop_resize&cropH=3001&cropW=3001&xPos=0&yPos=0&width=862&height=862
+راديو افغانستان اینترنشنال-Afghanistan-international(intl)-2,https://n09.radiojar.com:443/vemf3w2rv38uv,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQUb1kZPrdDdd-H06sk4UGaWjFHOpHkT0ckw&s
+i24 News(English),https://fastly.live.brightcove.com/6386790908112/eu-central-1/5377161796001/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJob3N0IjoiZXJmajYzLmVncmVzcy53YzQ3bTEiLCJhY2NvdW50X2lkIjoiNTM3NzE2MTc5NjAwMSIsImVobiI6ImZhc3RseS5saXZlLmJyaWdodGNvdmUuY29tIiwiaXNzIjoiYmxpdmUtcGxheWJhY2stc291cmNlLWFwaSIsInN1YiI6InBhdGhtYXB0b2tlbiIsImF1ZCI6WyI1Mzc3MTYxNzk2MDAxIl0sImp0aSI6IjYzODY3OTA5MDgxMTIifQ._w5c3EwfnEecDCEpDaKuVz07uuEyUb3vXvQN3svv-oU/chunklist.m3u8,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMjOctrN6WfKnZaJf-x75qQXI5ck0mjPo_sX1rPO3YJeiysEVoFcr0z9s&s
+Iran international-intl-1,http://n0a.radiojar.com/dfnrphnr5f0uv?rj-ttl=5&rj-tok=AAABkdwxrcoA9ROjf-IpAgaGpQ,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwY06KmNXGqMeehQD4GgOO7dhLToaQJyAlmg&s
+iran international-intl-2,http://n09.radiojar.com/dfnrphnr5f0uv?rj-ttl=5&rj-tok=AAABkd2YsFUALphNN8tkOsQpAQ,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwY06KmNXGqMeehQD4GgOO7dhLToaQJyAlmg&s
+CNN-news,http://stream1.skyviewnetworks.com:8010/CNN,https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/CNN_Logo_(2014).svg/1200px-CNN_Logo_(2014).svg.png
+CNN International (TV),https://tunein.cdnstream1.com/3519_96.aac,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9S_dwsCfddC68maB-9Ns7BWAwH_WeXCDfGg&s
+i24New TV,https://bcovlive-a.akamaihd.net/d89ede8094c741b7924120b27764153c/eu-central-1/5377161796001/profile_0/chunklist.m3u8,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMjOctrN6WfKnZaJf-x75qQXI5ck0mjPo_sX1rPO3YJeiysEVoFcr0z9s&s
+GB NEWS TV (صداى تلويزيون),https://listen-gbnews.sharp-stream.com/gbnews.aac,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_nQqy21YvkNr3gIHO7JcLkIgTMEjznQaY6g&s
+BBC World Service(England),https://vprbbc.streamguys1.com/vprbbc24.mp3,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRemxDuUJL4a9LiUer56WYajglJr4tFUdj4hA&s
+BFM(TV-Voice-France)-1,https://live-cdn-stream-euw1.bfmtv.bct.nextradiotv.com/master.m3u8,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHgszxNYCp5yVumDivcIkR2SLml1tyZkZ2zbxrChwLyQ&s
+CNN International TV(صداى تلويزيون),https://tunein.cdnstream1.com/351996.aac,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9S_dwsCfddC68maB-9Ns7BWAwH_WeXCDfGg&s
+BBC PASHTO - Dari بى بى سى درى و پشتو افغانستان(POWER),https://stream.live.vc.bbcmedia.co.uk/bbc_pashto_radio,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDuXp7vo20nPagJyDdrIvJSSpxBeKnuEPnX86ZvDNLeXJo4so61aCXJeM&s
+RF-(Persian),http://rfienpersan64k.ice.infomaniak.ch/rfienpersan-64k.mp3,
+Sputnik International,http://stream.radiosputnik.nl:8002/,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJmc2_jlI1YOUgsAtwv4nHaayHTgtPNVbUXK9gnnnlJA&s
+Sputnik international-2,http://radiosputnik.nl:8002/sputnik,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJmc2_jlI1YOUgsAtwv4nHaayHTgtPNVbUXK9gnnnlJA&s
+sz-7. Realm Scans.   jp(Fast&POWER),http://master.shoutcast.com:8000/rizz-radioonlinehd,data:image/jpeg;base64
+sz-6.  Reds Wave(POWER),http://mtist.as.smartstream.ne.jp/30008/livestream/playlist.m3u8,
+Sz-2 AFN Tokyo-asli(POWER),https://playerservices.streamtheworld.com/api/livestream-redirect/AFNP_TKO.mp3,
+SZ-9. CNN Germentanio(POWER),https://unlimited5-us.dps.live/cnn-ar/aac/icecast.audio,
+SZ-8  WREP.  JP(POWER),https://c13.radioboss.fm:8200/autodj,
+sz-4.  AFN Sasebo. Asli(POWER),https://playerservices.streamtheworld.com/api/livestream-redirect/AFNP_SBO.mp3,
+sz-1(POWER),https://vprbbc.streamguys1.com/vprbbc24-mobile.mp3,
+sz-3(POWER),http://mtist.as.smartstream.ne.jp/30035/livestream/playlist.m3u8,
+BBC-UK(POWER),https://stream.live.vc.bbcmedia.co.uk/bbc_world_service,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRemxDuUJL4a9LiUer56WYajglJr4tFUdj4hA&s
+Radio Donya(POWER),https://stream.zeno.fm/v5kxmagseg0uv,
+Radio SRF 4 News-Fast-1(Germany-آلمانى),http://stream.srg-ssr.ch/m/drs4news/mp3_128,
+راديو دنيا,https://stream.zeno.fm/v5kxmagseg0uv,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR234Urna6gxU7zBD5mcfX33MUd1AJSCyrqXvre7oyDHw6sZ-ykhqraMtE&usqp=CAE&s
+راديو هم صدا,http://listen.radionomy.com/rtstereo?type=.mp3,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLZmRllZPWwZOUdOaRIMB-wHXvMYuAdJUGBZZ1ZrXjsl3GQnw5aCUFnjQ&s
+Friendship-japan,http://uk1.listen2myradio.com:8028/stream,
+Xiamen RGD Music Radio(China),https://lhttp.qtfm.cn/live/1739/64k.mp3,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxJD_p5r1CKFC2L8TCB762xTo78ppjeodZJ0aHzgOf_Q&s
+Yunnan Music Radio (China),https://lhttp.qtfm.cn/live/1929/64k.mp3,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxJD_p5r1CKFC2L8TCB762xTo78ppjeodZJ0aHzgOf_Q&s
+Wuxi News and General Radio(China),https://lhttp.qtfm.cn/live/2777/64k.mp3,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxJD_p5r1CKFC2L8TCB762xTo78ppjeodZJ0aHzgOf_Q&s
+جوان,http://s1.cdn1.iranseda.ir:1935/liveedge/radio-javan/playlist.m3u8,
+ورزش,http://s1.cdn1.iranseda.ir:1935/liveedge/radio-varzesh/playlist.m3u8,
+راديو مناسبتى,https://s2.cdn1.iranseda.ir/liveedge/radio-monasebati/playlist.m3u8,
+BFBS Afghanistan-افغانستان_بهترین و توانمندترین(Power Signal) آنتن,http://icy-e-01-cr.sharp-stream.com/ssvcbfbs9.mp3,
+Voice-America-(USA-TV),http://voa-19.akacast.akamaistream.net/7/309/322031/v1/ibb.akacast.akamaistream.net/voa-19.m3u,
+NPR-(USA-Radio),https://npr-ice.streamguys1.com/live.mp3,
+City News-(USA-TV),https://rogers.leanstream.co/rogers/kit570.stream/icy?environment=tunein,
+Fox News (Live Now From Fox[TV]) (صداى تلويزيون),https://fox-foxnewsnow-samsungus.amagi.tv/playlist.m3u8,
+راديوى آزادى افغانستان,http://rfe-channel-17.akacast.akamaistream.net/7/367/229667/v1/ibb.akacast.akamaistream.net/rfe_channel_17.mp3,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoHDhGupb_HKluh9FlFqiawwkcc62Y-pqbhkmxOyDwwA&s
+راديوى آزادى افغانستان-(2),http://rfe-channel-17.akacast.akamaistream.net/7/367/229667/v1/ibb.akacast.akamaistream.net/rfe_channel_17,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoHDhGupb_HKluh9FlFqiawwkcc62Y-pqbhkmxOyDwwA&s
+راديو افغانستان اینترنشنال-Afghanistan-international(intl),https://n0c.radiojar.com:443/vemf3w2rv38uv,
+صداى تلوزيون افغانستان اينترنشنال,https://hls.afintl.com/hls/stream.m3u8,
+راديوى افغانستان اينترنشنال,https://stream.radiojar.com/vemf3w2rv38uv,
+راديوى افغانستان اينترنشنال,https://stream.radiojar.com/9gayvb56ckhvv,
+راديو فرانسه-بخش فارسى,#NowPlaying - RFI Persian on @TuneIn Radio! http://tun.in/sfbDV,
+Radio-Iran-راديو ايران,http://s1.cdn1.iranseda.ir:1935/liveedge/radio-iran/playlist.m3u8,
+NHK-JAPAN,https://radio-stream.nhk.jp/hls/live/2023507/nhkradiruakfm/master.m3u8,
+Shimada-Japan,https://playerservices.streamtheworld.com/api/livestream-redirect/AFNPMSW.mp3,
+راديو جهانى-Radio Jahani(Japan-فارسى),http://shoutcast.wrn.org:8025/vor,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf_eer8sDZ9QYNbRfkIkp7Cxldla1dbhukudaKwNm0lwE1P2i0r4h1DFg&usqp=CAE&s
+Shimada-Japan-2,https://playerservices.streamtheworld.com/api/livestream-redirect/AFNPMSWAAC.aac,
+Kishiwada-1,https://mtist.as.smartstream.ne.jp/30035/livestream/playlist.m3u8,
+Total Oldies(Music)(Germany),https://stream.laut.fm/totaloldies,
+Germany-شادى و خنده,https://wdr-wdr5-live.icecast.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3,
+راديو مژده-Mojdeh(مسيحى),https://stream.zeno.fm/v5kxmagseg0uv,
+راديو فارسى فرانسه,https://rfipersan96k.ice.infomaniak.ch/rfipersan-96k.mp3,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGRmGXabv4OXrURfm1GMoU5g6bWqWCTtVgxZQhoJgiLQ&s
+راديو فارسى-فرانسه,http://rfienpersan64k.ice.infomaniak.ch/rfienpersan-64k.mp3,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTY-ZOEcP6Pd1wtb_CFLuszvq5YNy-OIHh1gpY7lXe1g&s
+intl-HTML-WEB,http://n13.radiojar.com/iintl_c?rj-ttl=5&rj-tok=AAABkd6P6lQA9JP7eOR5_jJcRA,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwY06KmNXGqMeehQD4GgOO7dhLToaQJyAlmg&s
+راديوى ايران اينترنشنال(لندن),https://stream.radiojar.com/dfnrphnr5f0uv,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwY06KmNXGqMeehQD4GgOO7dhLToaQJyAlmg&s
+راديو ايران اينترنشنال-4,http://n13.radiojar.com/dfnrphnr5f0uv?rj-ttl=5&rj-tok=AAABlRTNKWMAoJjM7umy56XSUA,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwY06KmNXGqMeehQD4GgOO7dhLToaQJyAlmg&s
+USA-News-3,https://cromwell-ice.streamguys1.com/WZUSFM-fallback,
+BFM-,https://ncdn-live-bfm.pfd.sfr.net/shls/LIVE$BFM_GRANDSREPORTAGES/index.m3u8?start=LIVE&end=END&checkedby:iptvcat.com,
+persian-News-from USA,https://encompass.tv/stream-persian,
+BBC (Pashto_Dari)Afghanistan,http://stream.live.vc.bbcmedia.co.uk/bbc_pashto_radio,
+BBC-Dari,http://tun.in/se8i3,
+رادیو بندر عباس,http://cdn1.live.irib.ir:1935/channel-live/smil:r-bandarabas/playlist.m3u8,https://iconplanet.app/preview/png/64/khalijefars--10286.png
+فارس-TV(صداى تلوزيون),https://ncdn.telewebion.com/fars/live/playlist.m3u8,https://iconplanet.app/preview/png/64/fars--10279.png
+خبر 2-TV(صداى تلوزيون),https://ncdn.telewebion.com/irinn2/live/playlist.m3u8,
+نمايش-TV(صداى تلوزيون),https://ncdn.telewebion.com/namayesh/live/playlist.m3u8,https://iconplanet.app/preview/png/64/mostanad--10302.png
+سبلان-TV(صداى تلوزيون),https://ncdn.telewebion.com/sabalan/live/playlist.m3u8,
+قزوين-TV(صداى تلوزيون),https://ncdn.telewebion.com/qazvin/live/playlist.m3u8,
+سلامت-TV(صداى تلوزيون),https://ncdn.telewebion.com/salamat/live/playlist.m3u8,https://iconplanet.app/preview/png/64/salamat--10248.png
+ورزش-TV(صداى تلوزيون),https://ncdn.telewebion.com/varzesh/live/playlist.m3u8,
+سحر افغانستان-TV(صداى تلوزيون),https://ncdn.telewebion.com/saharafghan/live/playlist.m3u8,https://upload.wikimedia.org/wikipedia/fa/9/92/Sahar-New.png
+تهران-TV(صداى تلوزيون),https://ncdn.telewebion.com/tehran/live/playlist.m3u8,
+سمنان-TV(صداى تلوزيون),https://ncdn.telewebion.com/semnan/live/playlist.m3u8,
+مستند-TV(صداى تلوزيون),https://ncdn.telewebion.com/mostanad/live/playlist.m3u8,
+كرمان-TV(صداى تلوزيون),https://ncdn.telewebion.com/kerman/live/playlist.m3u8,
+جهان بين(بختيارى)-TV(صداى تلوزيون),https://ncdn.telewebion.com/jahanbin/live/playlist.m3u8,
+همدان-TV(صداى تلوزيون),https://ncdn.telewebion.com/sina/live/playlist.m3u8,
+آفتاب-(يزد)-TV(صداى تلوزيون),https://ncdn.telewebion.com/aftab/live/playlist.m3u8,https://iconplanet.app/preview/png/64/yazd--10271.png
+باران-TV(صداى تلوزيون),https://ncdn.telewebion.com/baran/live/playlist.m3u8,
+هامون-TV(صداى تلوزيون),https://ncdn.telewebion.com/hamoon/live/playlist.m3u8,
+دنا-TV(صداى تلوزيون),https://ncdn.telewebion.com/dena/live/playlist.m3u8,
+بوشهر-TV(صداى تلوزيون),https://ncdn.telewebion.com/bushehr/live/playlist.m3u8,
+خليج فارس-TV(صداى تلوزيون),https://ncdn.telewebion.com/khalijefars/live/playlist.m3u8,
+خوزستان-TV(صداى تلوزيون),https://ncdn.telewebion.com/khoozestan/live/playlist.m3u8,https://iconplanet.app/preview/png/64/khoozestan--10280.png
+آموزش-TV(صداى تلوزيون),https://ncdn.telewebion.com/amouzesh/live/playlist.m3u8,https://iconplanet.app/preview/png/64/amouzesh--10246.png
+BFM(TV-Voice-France)-2,https://audio.bfmtv.com/bfmradio_128.mp3,
+پيام,https://s2.cdn3.iranseda.ir/liveedge/radio-payam/playlist.m3u8,
+راديو ايران(سراسرى),https://s1.cdn3.iranseda.ir/liveedge/radio-iran/playlist.m3u8,
+راديو سلامت,https://s2.cdn3.iranseda.ir/liveedge/radio-salamat/playlist.m3u8,
+GB-TV-Voice-صداى شبكه,https://listen-gbnews.sharp-stream.com/gbnews.mp3?ref=radiomap.eu,
+Fox News-1,https://crystalout.surfernetwork.com:8001/WJJF-FM_MP3,
+Fox News 2,https://n1ea-e2.revma.ihrhls.com:443/zc453,
+JP-NHK World,http://mnet.x10.mx/nhkfm.m3u8,
+Import,https://data.code.gouv.fr/api/v1/hosts/GitHub/repositories/radiofrance%2Fm3u8,
+Radio Noordzee(48),http://stream.noordzee105.be:8000/noordzee_48,
+Radio Caprice(Russia)(128k),http://79.111.119.111:8000/posthardcore,
+France-Radio,http://mediaserv21.live-streams.nl:8000/live,
+ICI,https://playerservices.streamtheworld.com/api/livestream-redirect/CHFAFM_SRC.mp3,https://drive.google.com/file/d/1pp2n3ZWA5iMbanm4PtEk2ZAcM193Rt5G/view?usp=drivesdk
+BBC(),http://as-hls-ww-live.akamaized.net/pool_01505109/live/ww/bbc_radio_one/bbc_radio_one.isml/bbc_radio_one-audio%3d96000.norewind.m3u8,
+BBC-50,https://ukradiolive.com/bbc-world-service,
+

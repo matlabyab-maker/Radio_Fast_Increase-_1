@@ -54,7 +54,22 @@ public class MainActivity extends AppCompatActivity {
     }
     private void showSelected(RadioStation s){selected=s;nowPlaying.setText(s.name+"  •  "+(s.country.isEmpty()?"":s.country)+"  •  "+(s.bitrate>0?s.bitrate+" kbps":"Auto"));status.setText("Selected • target "+qualityRuler.getValue()+" kbps");}
     private void connectController(){SessionToken token=new SessionToken(this,new ComponentName(this,RadioPlaybackService.class));controllerFuture=new MediaController.Builder(this,token).buildAsync();controllerFuture.addListener(()->{try{controller=controllerFuture.get();}catch(Exception e){status.setText("Controller error");}},getMainExecutor());}
-    private void playSelected(){if(selected==null){status.setText("Select a station first");return;}if(controller==null){status.setText("Player not ready");return;}String finalUrl = ProxyConfig.wrap(selected.url); controller.setMediaItem(MediaItem.fromUri(finalUrl));controller.prepare();controller.play();nowPlaying.setText("▶ "+selected.name);status.setText("Media3 ExoPlayer • buffer 5–10 s • target "+qualityRuler.getValue()+" kbps");}
+    private void playSelected(){
+        if(selected==null){status.setText("Select a station first");return;}
+        String finalUrl = ProxyConfig.wrap(selected.url);
+        if(finalUrl==null || finalUrl.isEmpty()){status.setText("Invalid stream URL");return;}
+        String lower=finalUrl.toLowerCase(Locale.US);
+        if(lower.endsWith(".html") || lower.endsWith(".htm") || lower.contains("gurutv.online/")){
+            try { Intent i=new Intent(this,WebStreamActivity.class); i.putExtra("url",finalUrl); startActivity(i); status.setText("Opening live web stream…"); }
+            catch(Exception e){status.setText("Web stream could not be opened");}
+            return;
+        }
+        if(controller==null){status.setText("Player not ready");return;}
+        controller.setMediaItem(MediaItem.fromUri(finalUrl));
+        controller.prepare();controller.play();
+        nowPlaying.setText("▶ "+selected.name);
+        status.setText("Playing • Media3 HLS/HTTP • buffer 5–10 s • target "+qualityRuler.getValue()+" kbps");
+    }
     private void loadIran(){RadioBrowserClient.byCountry("IR",new RadioBrowserClient.StationCallback(){public void result(List<RadioStation>x){runOnUiThread(()->{iran.clear();iran.addAll(x);iranAdapter.notifyDataSetChanged();});}public void error(Exception e){runOnUiThread(()->status.setText("Iran Radio list unavailable"));}});}
     private void setupSpinners(){regionSpinner.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,regions));regionSpinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener(){public void onNothingSelected(android.widget.AdapterView<?>p){}public void onItemSelected(android.widget.AdapterView<?>p,View v,int pos,long id){refreshCountries();}});countrySpinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener(){public void onNothingSelected(android.widget.AdapterView<?>p){}public void onItemSelected(android.widget.AdapterView<?>p,View v,int pos,long id){if(pos>0)doCountrySearch();}});}
     private void refreshCountries(){String r=regions[regionSpinner.getSelectedItemPosition()];List<String> names=new ArrayList<>();names.add("All countries");for(RadioBrowserClient.CountryItem c:countries)if(RegionCatalog.region(c.code).equals(r))names.add(c.toString());ArrayAdapter<String>a=new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,names);countrySpinner.setAdapter(a);}

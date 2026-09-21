@@ -6,6 +6,8 @@ import androidx.media3.common.C;
 import androidx.media3.exoplayer.DefaultLoadControl;
 import androidx.media3.exoplayer.DefaultRenderersFactory;
 import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.datasource.DefaultHttpDataSource;
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 import androidx.media3.session.MediaSession;
 import androidx.media3.session.MediaSessionService;
 
@@ -20,7 +22,13 @@ public class RadioPlaybackService extends MediaSessionService {
                 .build();
         DefaultRenderersFactory renderers = new DefaultRenderersFactory(this)
                 .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER);
-        player = new ExoPlayer.Builder(this).setRenderersFactory(renderers).setLoadControl(loadControl)
+        DefaultHttpDataSource.Factory http = new DefaultHttpDataSource.Factory()
+                .setUserAgent("Fast Radio/3.5")
+                .setAllowCrossProtocolRedirects(true);
+        player = new ExoPlayer.Builder(this)
+                .setRenderersFactory(renderers)
+                .setLoadControl(loadControl)
+                .setMediaSourceFactory(new DefaultMediaSourceFactory(http))
                 .setAudioAttributes(new AudioAttributes.Builder().setUsage(C.USAGE_MEDIA).setContentType(C.AUDIO_CONTENT_TYPE_MUSIC).build(), true)
                 .build();
         mediaSession = new MediaSession.Builder(this, player).build();

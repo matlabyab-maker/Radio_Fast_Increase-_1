@@ -33,3 +33,8 @@ The project now includes `server.py`, based on the supplied middleware code. Ins
 In `app/src/main/java/com/fast/radio/ProxyConfig.java`, set `SERVER_BASE_URL` to the public base URL of the VPS. When it is non-empty, selected station URLs are sent through `/stream?url=...`; when it is empty, the app keeps using the original station URL.
 
 The Android playback path is wired in `MainActivity.playSelected()`.
+
+
+## Fast Radio 3.4
+Custom Radio now contains the 112 stations supplied in `stations.txt`.
+The supplied list is preserved as `stations_CustomRadio_Source.txt`.
