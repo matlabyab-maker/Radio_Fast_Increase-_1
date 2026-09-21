@@ -51,3 +51,4 @@
         <Button android:id="@+id/play" android:layout_width="100dp" android:layout_height="match_parent" android:text="PLAY"/><Button android:id="@+id/stop" android:layout_width="100dp" android:layout_height="match_parent" android:text="STOP"/><Button android:id="@+id/fav" android:layout_width="70dp" android:layout_height="match_parent" android:text="★"/>
     </LinearLayout>
 </LinearLayout>
+</LinearLayout>
