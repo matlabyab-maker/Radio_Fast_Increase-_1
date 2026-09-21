@@ -2,6 +2,10 @@ package com.fast.radio;
 
 import android.content.*;
 import android.os.*;
+import android.media.AudioManager;
+import android.media.MediaRecorder;
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.view.*;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,13 +20,14 @@ import java.util.*;
 public class MainActivity extends AppCompatActivity {
     private ListView customList, iranList, worldList, newsList;
     private TextView status, nowPlaying, qualityValue, usagePerMinute;
-    private final List<RadioStation> custom=new ArrayList<>(), iran=new ArrayList<>(), world=new ArrayList<>(), favorites=new ArrayList<>();
+    private final List<RadioStation> custom=new ArrayList<>(), iran=new ArrayList<>(), world=new ArrayList<>(), favorites=new ArrayList<>(), builtinFavorites=new ArrayList<>();
     private StationAdapter customAdapter, iranAdapter, worldAdapter;
     private MediaController controller; private ListenableFuture<MediaController> controllerFuture;
     private Spinner regionSpinner, countrySpinner; private EditText search;
     private final List<RadioBrowserClient.CountryItem> countries=new ArrayList<>();
     private final String[] regions=RegionCatalog.REGIONS;
-    private VerticalRulerView qualityRuler; private RadioStation selected;
+    private VerticalRulerView qualityRuler; private VolumeRulerView volumeRuler; private RadioStation selected;
+    private MediaRecorder recorder; private boolean recording=false; private TextView recordLight; private static final int REQ_RECORD_AUDIO=401;
     private final String[] newsNames={"Sputnik فارسی","BBC Persian","Iran International","VOA Persian","BBC News","NHK Japan"};
 
     @Override protected void onCreate(Bundle b){
@@ -35,18 +40,40 @@ public class MainActivity extends AppCompatActivity {
     private void bind(){
         customList=findViewById(R.id.customList); iranList=findViewById(R.id.iranList); worldList=findViewById(R.id.worldList); newsList=findViewById(R.id.newsList);
         status=findViewById(R.id.status); nowPlaying=findViewById(R.id.nowPlaying); qualityValue=findViewById(R.id.qualityValue); usagePerMinute=findViewById(R.id.usagePerMinute);
-        qualityRuler=findViewById(R.id.qualityRuler); regionSpinner=findViewById(R.id.regionSpinner); countrySpinner=findViewById(R.id.countrySpinner); search=findViewById(R.id.search);
+        qualityRuler=findViewById(R.id.qualityRuler); volumeRuler=findViewById(R.id.volumeRuler); recordLight=findViewById(R.id.recordLight); regionSpinner=findViewById(R.id.regionSpinner); countrySpinner=findViewById(R.id.countrySpinner); search=findViewById(R.id.search);
         qualityRuler.setListener(v->{qualityValue.setText(v+" kbps"); updateUsage(v); status.setText("Quality target: "+v+" kbps");});
+        volumeRuler.setListener(v->setOutputVolume(v));
+        findViewById(R.id.record).setOnClickListener(v->toggleRecording());
         findViewById(R.id.play).setOnClickListener(v->playSelected()); findViewById(R.id.stop).setOnClickListener(v->{if(controller!=null)controller.stop();status.setText("Stopped");});
         findViewById(R.id.fav).setOnClickListener(v->{if(selected!=null)toggleFavorite(selected);});
         findViewById(R.id.searchButton).setOnClickListener(v->doSearch()); findViewById(R.id.saveList).setOnClickListener(v->saveWorldList()); findViewById(R.id.favorites).setOnClickListener(v->showFavorites());
         setupScroll(R.id.customUp,customList,true); setupScroll(R.id.customDown,customList,false); setupScroll(R.id.iranUp,iranList,true); setupScroll(R.id.iranDown,iranList,false);
         updateUsage(15);
     }
+    private void setOutputVolume(int percent){
+        AudioManager am=(AudioManager)getSystemService(AUDIO_SERVICE); int max=am.getStreamMaxVolume(AudioManager.STREAM_MUSIC); int system=Math.round(max*Math.min(percent,100)/100f); am.setStreamVolume(AudioManager.STREAM_MUSIC,system,0);
+        Intent i=new Intent("com.fast.radio.SET_VOLUME_GAIN").setPackage(getPackageName()); i.putExtra("percent",percent); sendBroadcast(i);
+        status.setText("Volume: "+percent+"%"+(percent>100?" • boost":""));
+    }
+    private void toggleRecording(){
+        if(recording){ stopRecording(); return; }
+        if(android.os.Build.VERSION.SDK_INT>=23 && checkSelfPermission(Manifest.permission.RECORD_AUDIO)!=PackageManager.PERMISSION_GRANTED){requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO},REQ_RECORD_AUDIO);return;}
+        startRecording();
+    }
+    private void startRecording(){
+        try{ File dir=new File(getExternalFilesDir(android.os.Environment.DIRECTORY_MUSIC),"FastRadio"); if(!dir.exists())dir.mkdirs(); String name="FastRadio_"+new java.text.SimpleDateFormat("yyyyMMdd_HHmmss",Locale.US).format(new Date())+".amr";
+            recorder=new MediaRecorder(); recorder.setAudioSource(MediaRecorder.AudioSource.MIC); recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB); recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB); recorder.setAudioSamplingRate(8000); recorder.setAudioEncodingBitRate(12200); recorder.setOutputFile(new File(dir,name).getAbsolutePath()); recorder.prepare(); recorder.start(); recording=true; recordLight.setVisibility(View.VISIBLE); ((Button)findViewById(R.id.record)).setText("STOP REC"); status.setText("Recording AMR • "+name);
+        }catch(Exception e){recording=false;if(recorder!=null){try{recorder.release();}catch(Exception ignored){}}recorder=null;status.setText("Record could not start");}
+    }
+    private void stopRecording(){try{if(recorder!=null){recorder.stop();recorder.release();}}catch(Exception ignored){}recorder=null;recording=false;recordLight.setVisibility(View.GONE);((Button)findViewById(R.id.record)).setText("REC");status.setText("Recording saved as .amr");}
+    @Override public void onRequestPermissionsResult(int r,String[] p,int[] g){super.onRequestPermissionsResult(r,p,g);if(r==REQ_RECORD_AUDIO && g.length>0 && g[0]==PackageManager.PERMISSION_GRANTED)startRecording();else if(r==REQ_RECORD_AUDIO)status.setText("Microphone permission required for AMR recording");}
+    @Override protected void onDestroy(){if(recording)stopRecording();super.onDestroy();}
+
     private void updateUsage(int kbps){ double mb=(kbps*60.0)/(8.0*1024.0); usagePerMinute.setText(String.format(Locale.US,"%.3f MB / min",mb)); }
     private void setupScroll(int id,ListView l,boolean up){findViewById(id).setOnClickListener(v->{int p=l.getFirstVisiblePosition();l.setSelection(Math.max(0,p+(up?-8:8)));});}
-    private void loadAssets(){try{JSONArray a=new JSONArray(readAsset("stations.json"));for(int i=0;i<a.length();i++){JSONObject o=a.getJSONObject(i);custom.add(new RadioStation(o.optString("name"),o.optString("url")));}}catch(Exception ignored){} loadFavorites();}
+    private void loadAssets(){try{JSONArray a=new JSONArray(readAsset("stations.json"));for(int i=0;i<a.length();i++){JSONObject o=a.getJSONObject(i);custom.add(new RadioStation(o.optString("name"),o.optString("url")));}}catch(Exception ignored){} loadBuiltInFavorites(); loadFavorites();}
     private String readAsset(String n)throws Exception{BufferedReader r=new BufferedReader(new InputStreamReader(getAssets().open(n),"UTF-8"));StringBuilder b=new StringBuilder();String l;while((l=r.readLine())!=null)b.append(l);r.close();return b.toString();}
+    private void loadBuiltInFavorites(){try{JSONArray a=new JSONArray(readAsset("builtin_favorites.json"));for(int i=0;i<a.length();i++){JSONObject o=a.getJSONObject(i);String url=o.optString("url");if(url==null||url.trim().isEmpty())continue;builtinFavorites.add(new RadioStation(o.optString("name"),url,o.optString("country"),o.optString("countryCode",o.optString("countrycode")),o.optString("codec"),o.optInt("bitrate",0),o.optString("homepage"),o.optString("favicon")));}}catch(Exception ignored){}}
     private void setupLists(){StationAdapter.Listener l=new StationAdapter.Listener(){public void select(RadioStation s){showSelected(s);}public void favorite(RadioStation s){toggleFavorite(s);}};customAdapter=new StationAdapter(this,custom,l);iranAdapter=new StationAdapter(this,iran,l);worldAdapter=new StationAdapter(this,world,l);customList.setAdapter(customAdapter);iranList.setAdapter(iranAdapter);worldList.setAdapter(worldAdapter);}
     private void setupNews(){
         ArrayAdapter<String> a=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,newsNames){@Override public View getView(int p,View c,android.view.ViewGroup parent){TextView t=(TextView)super.getView(p,c,parent);t.setText(newsNames[p]+"   ★");t.setTextColor(android.graphics.Color.rgb(255,225,45));t.setTextSize(14);t.setPadding(10,6,4,6);t.setBackgroundColor(android.graphics.Color.TRANSPARENT);return t;}};
@@ -56,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private void connectController(){SessionToken token=new SessionToken(this,new ComponentName(this,RadioPlaybackService.class));controllerFuture=new MediaController.Builder(this,token).buildAsync();controllerFuture.addListener(()->{try{controller=controllerFuture.get();}catch(Exception e){status.setText("Controller error");}},getMainExecutor());}
     private void playSelected(){
         if(selected==null){status.setText("Select a station first");return;}
-        String finalUrl = ProxyConfig.wrap(selected.url);
+        String finalUrl = ProxyConfig.wrap(selected.url, qualityRuler.getValue());
         if(finalUrl==null || finalUrl.isEmpty()){status.setText("Invalid stream URL");return;}
         String lower=finalUrl.toLowerCase(Locale.US);
         if(lower.endsWith(".html") || lower.endsWith(".htm") || lower.contains("gurutv.online/")){
@@ -81,7 +108,8 @@ public class MainActivity extends AppCompatActivity {
     private void saveFavorites(){try{JSONArray a=new JSONArray();for(RadioStation s:favorites)a.put(toJson(s));writeFile(new File(getFilesDir(),"favorites.json"),a.toString());}catch(Exception ignored){}}
     private JSONObject toJson(RadioStation s)throws Exception{return new JSONObject().put("name",s.name).put("url",s.url).put("country",s.country).put("countryCode",s.countryCode).put("codec",s.codec).put("bitrate",s.bitrate).put("homepage",s.homepage).put("favicon",s.favicon);}
     private void saveWorldList(){try{JSONArray a=new JSONArray();for(RadioStation s:world)a.put(toJson(s));File f=new File(getFilesDir(),"saved_world_list_"+System.currentTimeMillis()+".json");writeFile(f,a.toString());status.setText("Saved: "+f.getName());}catch(Exception e){status.setText("Save failed");}}
-    private void showFavorites(){world.clear();world.addAll(favorites);worldAdapter.notifyDataSetChanged();status.setText("Favorites: "+favorites.size());}
+    private void showFavorites(){world.clear();for(RadioStation s:builtinFavorites){if(!containsUrl(favorites,s.url))world.add(s);}world.addAll(favorites);worldAdapter.notifyDataSetChanged();status.setText("Favorites: "+world.size()+" • built-in "+builtinFavorites.size());}
+    private boolean containsUrl(List<RadioStation> list,String url){for(RadioStation s:list)if(s.url!=null&&s.url.equals(url))return true;return false;}
     private String readFile(File f)throws Exception{BufferedReader r=new BufferedReader(new InputStreamReader(new FileInputStream(f),"UTF-8"));StringBuilder b=new StringBuilder();String l;while((l=r.readLine())!=null)b.append(l);r.close();return b.toString();}
     private void writeFile(File f,String s)throws Exception{FileOutputStream o=new FileOutputStream(f);o.write(s.getBytes("UTF-8"));o.close();}
     @Override protected void onDestroy(){if(controllerFuture!=null)MediaController.releaseFuture(controllerFuture);super.onDestroy();}

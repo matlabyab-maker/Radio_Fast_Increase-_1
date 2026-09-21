@@ -1,6 +1,10 @@
 package com.fast.radio;
 
 import androidx.annotation.Nullable;
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.audiofx.LoudnessEnhancer;
 import androidx.media3.common.AudioAttributes;
 import androidx.media3.common.C;
 import androidx.media3.exoplayer.DefaultLoadControl;
@@ -14,6 +18,8 @@ import androidx.media3.session.MediaSessionService;
 public class RadioPlaybackService extends MediaSessionService {
     private ExoPlayer player;
     private MediaSession mediaSession;
+    private LoudnessEnhancer loudnessEnhancer;
+    private final BroadcastReceiver volumeReceiver=new BroadcastReceiver(){@Override public void onReceive(android.content.Context c,Intent i){if(!"com.fast.radio.SET_VOLUME_GAIN".equals(i.getAction()))return;int p=i.getIntExtra("percent",100);try{if(player!=null&&player.getAudioSessionId()!=android.media.audiofx.AudioEffect.ERROR){if(loudnessEnhancer==null)loudnessEnhancer=new LoudnessEnhancer(player.getAudioSessionId());loudnessEnhancer.setTargetGain(Math.max(0,Math.min(600,(p-100)*6)));loudnessEnhancer.setEnabled(p>100);}}catch(Exception ignored){}}};
 
     @Override public void onCreate() {
         super.onCreate();
@@ -32,10 +38,13 @@ public class RadioPlaybackService extends MediaSessionService {
                 .setAudioAttributes(new AudioAttributes.Builder().setUsage(C.USAGE_MEDIA).setContentType(C.AUDIO_CONTENT_TYPE_MUSIC).build(), true)
                 .build();
         mediaSession = new MediaSession.Builder(this, player).build();
+        if(android.os.Build.VERSION.SDK_INT>=33) registerReceiver(volumeReceiver,new IntentFilter("com.fast.radio.SET_VOLUME_GAIN"),android.content.Context.RECEIVER_NOT_EXPORTED); else registerReceiver(volumeReceiver,new IntentFilter("com.fast.radio.SET_VOLUME_GAIN"));
     }
     @Nullable @Override public MediaSession onGetSession(MediaSession.ControllerInfo controllerInfo) { return mediaSession; }
     @Override public void onDestroy() {
         if(mediaSession!=null){mediaSession.release();mediaSession=null;}
+        try{unregisterReceiver(volumeReceiver);}catch(Exception ignored){}
+        if(loudnessEnhancer!=null){try{loudnessEnhancer.release();}catch(Exception ignored){}loudnessEnhancer=null;}
         if(player!=null){player.release();player=null;}
         super.onDestroy();
     }

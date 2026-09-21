@@ -5,13 +5,14 @@ import urllib.parse
 app = FastAPI()
 
 @app.get("/stream")
-async def proxy_stream(url: str):
+async def proxy_stream(url: str, kbps: int = 48):
+    kbps = max(1, min(400, kbps))
     decoded_url = urllib.parse.unquote(url)
     command = [
         "ffmpeg",
         "-i", decoded_url,
         "-acodec", "libfdk_aac",
-        "-b:a", "48k",
+        "-b:a", f"{kbps}k",
         "-f", "adts",
         "pipe:1"
     ]
@@ -28,7 +29,8 @@ async def proxy_stream(url: str):
                 break
             yield chunk
 
-    return Response(content=generate(), media_type="audio/aac")
+    from fastapi.responses import StreamingResponse
+    return StreamingResponse(generate(), media_type="audio/aac", headers={"X-Fast-Radio-Kbps": str(kbps)})
 
 # Run with:
 # uvicorn server:app --host 0.0.0.0 --port 8000

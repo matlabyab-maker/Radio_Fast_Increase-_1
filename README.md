@@ -38,3 +38,10 @@ The Android playback path is wired in `MainActivity.playSelected()`.
 ## Fast Radio 3.4
 Custom Radio now contains the 112 stations supplied in `stations.txt`.
 The supplied list is preserved as `stations_CustomRadio_Source.txt`.
+
+
+## Fast Radio 3.8 — Server KBPS control
+The KBPS ruler is now sent to the proxy server as the `kbps` query parameter. The server clamps it to 1..400 kbps and uses that value as FFmpeg audio bitrate. Direct station playback remains unchanged when the proxy is disabled.
+
+
+Version 3.9: built-in Favorites now contain real stream URLs from the included station source list; user favorites are preserved and shown together without duplicates.

@@ -19,11 +19,21 @@ public final class ProxyConfig {
             return normalized;
         }
         try {
-            return SERVER_BASE_URL + "/stream?url=" +
-                    java.net.URLEncoder.encode(normalized, "UTF-8");
+            return wrap(normalized, 48);
         } catch (Exception e) {
             return normalized;
         }
+    }
+
+    public static String wrap(String originalUrl, int kbps) {
+        String normalized = normalize(originalUrl);
+        if (!ENABLED || normalized == null || normalized.trim().isEmpty()) return normalized;
+        try {
+            int safe = Math.max(1, Math.min(400, kbps));
+            return SERVER_BASE_URL + "/stream?url=" +
+                    java.net.URLEncoder.encode(normalized, "UTF-8") +
+                    "&kbps=" + safe;
+        } catch (Exception e) { return normalized; }
     }
 
     /** RadioJar signed URLs contain very short-lived rj-ttl/rj-tok query parameters.
