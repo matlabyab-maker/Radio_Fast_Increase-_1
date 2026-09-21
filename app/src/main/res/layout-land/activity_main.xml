@@ -2,9 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="#020913">
 <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="8dp">
     <LinearLayout android:layout_width="match_parent" android:layout_height="54dp" android:gravity="center_vertical">
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Fast Radio" android:textColor="#EAF6FF" android:textSize="25sp" android:textStyle="bold"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="0.9" android:text="Fast Radio" android:textColor="#EAF6FF" android:textSize="25sp" android:textStyle="bold"/>
+        <TextView android:id="@+id/persianCalendar" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1.1" android:text="تقویم فارسی" android:textColor="#FFD43B" android:textSize="16sp" android:textStyle="bold" android:gravity="center" android:singleLine="true"/>
         <TextView android:id="@+id/status" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ready" android:textColor="#8BA6BC" android:textSize="13sp"/>
     </LinearLayout>
+    <LinearLayout android:id="@+id/tvTicker" android:layout_width="match_parent" android:layout_height="58dp" android:orientation="vertical" android:background="#101B27" android:padding="3dp">
+        <TextView android:id="@+id/tvTickerOriginal" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:text="WORLD TV NEWS • Loading…" android:textColor="#FFFFFF" android:textSize="13sp" android:gravity="center_vertical" android:singleLine="true"/>
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#33495E"/>
+        <TextView android:id="@+id/tvTickerPersian" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:text="ترجمه فارسی در حال آماده‌سازی…" android:textColor="#FFD43B" android:textSize="13sp" android:gravity="center_vertical" android:singleLine="true" android:textDirection="rtl"/>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/webTicker" android:layout_width="match_parent" android:layout_height="46dp" android:orientation="vertical" android:background="#0D1722" android:padding="2dp">
+        <TextView android:id="@+id/webTickerTitle" android:layout_width="match_parent" android:layout_height="16dp" android:text="WEB NEWS • Loading…" android:textColor="#7FD6FF" android:textSize="10sp" android:gravity="center_vertical" android:singleLine="true"/>
+        <TextView android:id="@+id/webTickerText" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:text="خبرهای صفحه اول وب‌سایت‌ها در حال دریافت…" android:textColor="#FFFFFF" android:textSize="12sp" android:gravity="center_vertical" android:singleLine="true"/>
+    </LinearLayout>
+
     <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
         <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1.15" android:orientation="vertical" android:background="#071525" android:padding="6dp">
             <TextView android:layout_width="match_parent" android:layout_height="34dp" android:text="CUSTOM RADIO" android:textColor="#39B9FF" android:textStyle="bold" android:gravity="center"/>

@@ -24,7 +24,7 @@ public class RadioPlaybackService extends MediaSessionService {
     @Override public void onCreate() {
         super.onCreate();
         DefaultLoadControl loadControl = new DefaultLoadControl.Builder()
-                .setBufferDurationsMs(5000, 10000, 1000, 2000)
+                .setBufferDurationsMs(10000, 30000, 3000, 5000)
                 .build();
         DefaultRenderersFactory renderers = new DefaultRenderersFactory(this)
                 .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER);

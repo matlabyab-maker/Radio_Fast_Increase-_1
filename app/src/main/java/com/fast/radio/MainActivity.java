@@ -10,6 +10,7 @@ import android.view.*;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.media3.common.MediaItem;
+import androidx.media3.common.Player;
 import androidx.media3.session.MediaController;
 import androidx.media3.session.SessionToken;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -19,7 +20,8 @@ import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
     private ListView customList, iranList, worldList, newsList;
-    private TextView status, nowPlaying, qualityValue, usagePerMinute;
+    private TextView status, nowPlaying, qualityValue, usagePerMinute, persianCalendar;
+    private TvNewsTicker tvNewsTicker; private WebsiteNewsTicker webNewsTicker;
     private final List<RadioStation> custom=new ArrayList<>(), iran=new ArrayList<>(), world=new ArrayList<>(), favorites=new ArrayList<>(), builtinFavorites=new ArrayList<>();
     private StationAdapter customAdapter, iranAdapter, worldAdapter;
     private MediaController controller; private ListenableFuture<MediaController> controllerFuture;
@@ -27,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private final List<RadioBrowserClient.CountryItem> countries=new ArrayList<>();
     private final String[] regions=RegionCatalog.REGIONS;
     private VerticalRulerView qualityRuler; private VolumeRulerView volumeRuler; private RadioStation selected;
-    private MediaRecorder recorder; private boolean recording=false; private TextView recordLight; private static final int REQ_RECORD_AUDIO=401;
+    private MediaRecorder recorder; private boolean recording=false;
+    private final Handler usageHandler=new Handler(Looper.getMainLooper()); private long playStartedMs=0; private int activeKbps=15; private TextView recordLight; private static final int REQ_RECORD_AUDIO=401;
     private final String[] newsNames={"Sputnik فارسی","BBC Persian","Iran International","VOA Persian","BBC News","NHK Japan"};
 
     @Override protected void onCreate(Bundle b){
@@ -39,9 +42,10 @@ public class MainActivity extends AppCompatActivity {
     }
     private void bind(){
         customList=findViewById(R.id.customList); iranList=findViewById(R.id.iranList); worldList=findViewById(R.id.worldList); newsList=findViewById(R.id.newsList);
-        status=findViewById(R.id.status); nowPlaying=findViewById(R.id.nowPlaying); qualityValue=findViewById(R.id.qualityValue); usagePerMinute=findViewById(R.id.usagePerMinute);
-        qualityRuler=findViewById(R.id.qualityRuler); volumeRuler=findViewById(R.id.volumeRuler); recordLight=findViewById(R.id.recordLight); regionSpinner=findViewById(R.id.regionSpinner); countrySpinner=findViewById(R.id.countrySpinner); search=findViewById(R.id.search);
-        qualityRuler.setListener(v->{qualityValue.setText(v+" kbps"); updateUsage(v); status.setText("Quality target: "+v+" kbps");});
+        status=findViewById(R.id.status); nowPlaying=findViewById(R.id.nowPlaying); qualityValue=findViewById(R.id.qualityValue); usagePerMinute=findViewById(R.id.usagePerMinute); persianCalendar=findViewById(R.id.persianCalendar); updatePersianCalendar();
+        qualityRuler=findViewById(R.id.qualityRuler); volumeRuler=findViewById(R.id.volumeRuler); recordLight=findViewById(R.id.recordLight);
+        tvNewsTicker=new TvNewsTicker(findViewById(R.id.tvTickerOriginal),findViewById(R.id.tvTickerPersian)); webNewsTicker=new WebsiteNewsTicker(findViewById(R.id.webTickerTitle),findViewById(R.id.webTickerText)); regionSpinner=findViewById(R.id.regionSpinner); countrySpinner=findViewById(R.id.countrySpinner); search=findViewById(R.id.search);
+        qualityRuler.setListener(v->{activeKbps=v; qualityValue.setText(v+" kbps"); updateUsage(v); status.setText("Quality target: "+v+" kbps");});
         volumeRuler.setListener(v->setOutputVolume(v));
         findViewById(R.id.record).setOnClickListener(v->toggleRecording());
         findViewById(R.id.play).setOnClickListener(v->playSelected()); findViewById(R.id.stop).setOnClickListener(v->{if(controller!=null)controller.stop();status.setText("Stopped");});
@@ -50,6 +54,32 @@ public class MainActivity extends AppCompatActivity {
         setupScroll(R.id.customUp,customList,true); setupScroll(R.id.customDown,customList,false); setupScroll(R.id.iranUp,iranList,true); setupScroll(R.id.iranDown,iranList,false);
         updateUsage(15);
     }
+    private void updatePersianCalendar(){
+        Calendar c=Calendar.getInstance();
+        int[] j=gregorianToJalali(c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH));
+        String[] months={"فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"};
+        String[] days={"یکشنبه","دوشنبه","سه‌شنبه","چهارشنبه","پنجشنبه","جمعه","شنبه"};
+        String text=days[c.get(Calendar.DAY_OF_WEEK)-1]+"  "+toPersianDigits(j[2])+" "+months[j[1]-1]+" "+toPersianDigits(j[0]);
+        persianCalendar.setText(text);
+        persianCalendar.postDelayed(this::updatePersianCalendar,60000);
+    }
+    private String toPersianDigits(int n){return String.valueOf(n).replace('0','۰').replace('1','۱').replace('2','۲').replace('3','۳').replace('4','۴').replace('5','۵').replace('6','۶').replace('7','۷').replace('8','۸').replace('9','۹');}
+    private int[] gregorianToJalali(int gy,int gm,int gd){
+        int[] gdm={31,28,31,30,31,30,31,31,30,31,30,31};
+        int gy2=gy-1600, gm2=gm-1, gd2=gd-1;
+        int gDay=365*gy2+(gy2+3)/4-(gy2+99)/100+(gy2+399)/400;
+        for(int i=0;i<gm2;i++) gDay+=gdm[i];
+        if(gm2>1 && ((gy%4==0 && gy%100!=0)||gy%400==0)) gDay++;
+        gDay+=gd2;
+        int jDay=gDay-79;
+        int jNp=jDay/12053; jDay%=12053;
+        int jy=979+33*jNp+4*(jDay/1461); jDay%=1461;
+        if(jDay>=366){jy+=(jDay-1)/365; jDay=(jDay-1)%365;}
+        int jm, jd;
+        if(jDay<186){jm=1+jDay/31; jd=1+jDay%31;} else {jm=7+(jDay-186)/30; jd=1+(jDay-186)%30;}
+        return new int[]{jy,jm,jd};
+    }
+
     private void setOutputVolume(int percent){
         AudioManager am=(AudioManager)getSystemService(AUDIO_SERVICE); int max=am.getStreamMaxVolume(AudioManager.STREAM_MUSIC); int system=Math.round(max*Math.min(percent,100)/100f); am.setStreamVolume(AudioManager.STREAM_MUSIC,system,0);
         Intent i=new Intent("com.fast.radio.SET_VOLUME_GAIN").setPackage(getPackageName()); i.putExtra("percent",percent); sendBroadcast(i);
@@ -67,18 +97,18 @@ public class MainActivity extends AppCompatActivity {
     }
     private void stopRecording(){try{if(recorder!=null){recorder.stop();recorder.release();}}catch(Exception ignored){}recorder=null;recording=false;recordLight.setVisibility(View.GONE);((Button)findViewById(R.id.record)).setText("REC");status.setText("Recording saved as .amr");}
     @Override public void onRequestPermissionsResult(int r,String[] p,int[] g){super.onRequestPermissionsResult(r,p,g);if(r==REQ_RECORD_AUDIO && g.length>0 && g[0]==PackageManager.PERMISSION_GRANTED)startRecording();else if(r==REQ_RECORD_AUDIO)status.setText("Microphone permission required for AMR recording");}
-    private void updateUsage(int kbps){ double mb=(kbps*60.0)/(8.0*1024.0); usagePerMinute.setText(String.format(Locale.US,"%.3f MB / min",mb)); }
+    private void updateUsage(int kbps){ double mb=(kbps*60.0)/(8.0*1024.0); long elapsed=playStartedMs>0?(System.currentTimeMillis()-playStartedMs)/1000:0; long min=elapsed/60, sec=elapsed%60; usagePerMinute.setText(String.format(Locale.US,"%d:%02d • %.3f MB/min",min,sec,mb)); usageHandler.removeCallbacksAndMessages(null); usageHandler.postDelayed(()->{if(controller!=null&&controller.isPlaying())updateUsage(activeKbps);},1000); }
     private void setupScroll(int id,ListView l,boolean up){findViewById(id).setOnClickListener(v->{int p=l.getFirstVisiblePosition();l.setSelection(Math.max(0,p+(up?-8:8)));});}
     private void loadAssets(){try{JSONArray a=new JSONArray(readAsset("stations.json"));for(int i=0;i<a.length();i++){JSONObject o=a.getJSONObject(i);custom.add(new RadioStation(o.optString("name"),o.optString("url")));}}catch(Exception ignored){} loadBuiltInFavorites(); loadFavorites();}
     private String readAsset(String n)throws Exception{BufferedReader r=new BufferedReader(new InputStreamReader(getAssets().open(n),"UTF-8"));StringBuilder b=new StringBuilder();String l;while((l=r.readLine())!=null)b.append(l);r.close();return b.toString();}
     private void loadBuiltInFavorites(){try{JSONArray a=new JSONArray(readAsset("builtin_favorites.json"));for(int i=0;i<a.length();i++){JSONObject o=a.getJSONObject(i);String url=o.optString("url");if(url==null||url.trim().isEmpty())continue;builtinFavorites.add(new RadioStation(o.optString("name"),url,o.optString("country"),o.optString("countryCode",o.optString("countrycode")),o.optString("codec"),o.optInt("bitrate",0),o.optString("homepage"),o.optString("favicon")));}}catch(Exception ignored){}}
-    private void setupLists(){StationAdapter.Listener l=new StationAdapter.Listener(){public void select(RadioStation s){showSelected(s);}public void favorite(RadioStation s){toggleFavorite(s);}};customAdapter=new StationAdapter(this,custom,l);iranAdapter=new StationAdapter(this,iran,l);worldAdapter=new StationAdapter(this,world,l);customList.setAdapter(customAdapter);iranList.setAdapter(iranAdapter);worldList.setAdapter(worldAdapter);}
+    private void setupLists(){StationAdapter.Listener l=new StationAdapter.Listener(){public void select(RadioStation s){showSelected(s); playSelected();}public void favorite(RadioStation s){toggleFavorite(s);}};customAdapter=new StationAdapter(this,custom,l);iranAdapter=new StationAdapter(this,iran,l);worldAdapter=new StationAdapter(this,world,l);customList.setAdapter(customAdapter);iranList.setAdapter(iranAdapter);worldList.setAdapter(worldAdapter);}
     private void setupNews(){
         ArrayAdapter<String> a=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,newsNames){@Override public View getView(int p,View c,android.view.ViewGroup parent){TextView t=(TextView)super.getView(p,c,parent);t.setText(newsNames[p]+"   ★");t.setTextColor(android.graphics.Color.rgb(255,225,45));t.setTextSize(14);t.setPadding(10,6,4,6);t.setBackgroundColor(android.graphics.Color.TRANSPARENT);return t;}};
         newsList.setAdapter(a); newsList.setOnItemClickListener((p,v,pos,id)->{String q=newsNames[pos].replace(" فارسی",""); RadioBrowserClient.search(q,"",new RadioBrowserClient.StationCallback(){public void result(List<RadioStation>x){runOnUiThread(()->{world.clear();world.addAll(x);worldAdapter.notifyDataSetChanged();status.setText(newsNames[pos]+" • "+x.size()+" results");});}public void error(Exception e){runOnUiThread(()->status.setText("No live result for "+newsNames[pos]));}});});
     }
     private void showSelected(RadioStation s){selected=s;nowPlaying.setText(s.name+"  •  "+(s.country.isEmpty()?"":s.country)+"  •  "+(s.bitrate>0?s.bitrate+" kbps":"Auto"));status.setText("Selected • target "+qualityRuler.getValue()+" kbps");}
-    private void connectController(){SessionToken token=new SessionToken(this,new ComponentName(this,RadioPlaybackService.class));controllerFuture=new MediaController.Builder(this,token).buildAsync();controllerFuture.addListener(()->{try{controller=controllerFuture.get();}catch(Exception e){status.setText("Controller error");}},getMainExecutor());}
+    private void connectController(){SessionToken token=new SessionToken(this,new ComponentName(this,RadioPlaybackService.class));controllerFuture=new MediaController.Builder(this,token).buildAsync();controllerFuture.addListener(()->{try{controller=controllerFuture.get(); controller.addListener(new Player.Listener(){@Override public void onPlaybackStateChanged(int state){runOnUiThread(()->{if(state==Player.STATE_BUFFERING)status.setText("Buffering…"); else if(state==Player.STATE_READY && controller.isPlaying())status.setText("Playing • buffer active");});}});}catch(Exception e){status.setText("Controller error");}},getMainExecutor());}
     private void playSelected(){
         if(selected==null){status.setText("Select a station first");return;}
         String finalUrl = ProxyConfig.wrap(selected.url, qualityRuler.getValue());
@@ -92,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         if(controller==null){status.setText("Player not ready");return;}
         controller.setMediaItem(MediaItem.fromUri(finalUrl));
         controller.prepare();controller.play();
+        activeKbps=qualityRuler.getValue(); playStartedMs=System.currentTimeMillis(); updateUsage(activeKbps);
         nowPlaying.setText("▶ "+selected.name);
         status.setText("Playing • Media3 HLS/HTTP • buffer 5–10 s • target "+qualityRuler.getValue()+" kbps");
     }
@@ -110,5 +141,5 @@ public class MainActivity extends AppCompatActivity {
     private boolean containsUrl(List<RadioStation> list,String url){for(RadioStation s:list)if(s.url!=null&&s.url.equals(url))return true;return false;}
     private String readFile(File f)throws Exception{BufferedReader r=new BufferedReader(new InputStreamReader(new FileInputStream(f),"UTF-8"));StringBuilder b=new StringBuilder();String l;while((l=r.readLine())!=null)b.append(l);r.close();return b.toString();}
     private void writeFile(File f,String s)throws Exception{FileOutputStream o=new FileOutputStream(f);o.write(s.getBytes("UTF-8"));o.close();}
-    @Override protected void onDestroy(){if(recording)stopRecording();if(controllerFuture!=null)MediaController.releaseFuture(controllerFuture);super.onDestroy();}
+    @Override protected void onDestroy(){if(recording)stopRecording();if(tvNewsTicker!=null)tvNewsTicker.stop(); if(webNewsTicker!=null)webNewsTicker.stop(); usageHandler.removeCallbacksAndMessages(null);if(controllerFuture!=null)MediaController.releaseFuture(controllerFuture);super.onDestroy();}
 }

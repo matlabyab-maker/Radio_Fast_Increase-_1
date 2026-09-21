@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
-    <application android:theme="@style/AppTheme" android:label="Fast Radio" android:usesCleartextTraffic="true" android:allowBackup="true">
+    <application android:theme="@style/AppTheme" android:label="Fast Radio" android:icon="@drawable/ic_fast_radio" android:roundIcon="@drawable/ic_fast_radio" android:usesCleartextTraffic="true" android:allowBackup="true">
         <activity android:name=".WebStreamActivity" android:exported="false" />
         <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
