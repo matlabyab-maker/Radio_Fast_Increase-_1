@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "relays": [
+    "https://relay1.example.com",
+    "https://relay2.example.com"
+  ]
+}

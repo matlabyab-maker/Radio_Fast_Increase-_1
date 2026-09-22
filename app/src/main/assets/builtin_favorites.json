@@ -1,62 +1,14 @@
 [
-  {
-    "name": "BBC Live News(48k)",
-    "url": "http://as-hls-ww-live.akamaized.net/pool_53367543/live/ww/bbc_sounds_news/bbc_sounds_news.isml/bbc_sounds_news-audio%3d48000.norewind.m3u8",
-    "favicon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRemxDuUJL4a9LiUer56WYajglJr4tFUdj4hA&s"
-  },
-  {
-    "name": "رادیو فرهنگ",
-    "url": "https://s1.cdn3.iranseda.ir/liveedge/radio-farhang/playlist.m3u8",
-    "favicon": ""
-  },
-  {
-    "name": "شبکه خبر",
-    "url": "https://ncdn.telewebion.com/irinn/live/playlist.m3u8",
-    "favicon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYyxR3Rnq7rNizBn_oU-i9saE8LGbowVpShg&s"
-  },
-  {
-    "name": "پيام",
-    "url": "http://s1.cdn1.iranseda.ir:1935/liveedge/radio-payam/playlist.m3u8",
-    "favicon": ""
-  },
-  {
-    "name": "رادیو سلامت",
-    "url": "https://s2.cdn3.iranseda.ir/liveedge/radio-salamat/playlist.m3u8",
-    "favicon": ""
-  },
-  {
-    "name": "BBC NEWS(TV-England)",
-    "url": "https://vs-hls-push-ww-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_news_channel_hd/mobile_wifi_main_sd_abr_v2.m3u8",
-    "favicon": "https://upload.wikimedia.org/wikipedia/en/thumb/2/24/BBC_News_HD_Logo.svg/300px-BBC_News_HD_Logo.svg.png?20231114034940"
-  },
-  {
-    "name": "CCTV CGTN",
-    "url": "https://english-livetx.cgtn.com/hls/yypdyyctzb_sd.m3u8",
-    "favicon": "https://news.cgtn.com/news/2022-03-03/Live-CGTN-on-Live-186JX8LMSLm/img/be311c3e25724c389c12fcc465d7817a/be311c3e25724c389c12fcc465d7817a.jpeg"
-  },
-  {
-    "name": "ABC News-Australia",
-    "url": "http://abc.streamguys1.com/live/newsradio/icecast.audio",
-    "favicon": "https://live-production.wcms.abc-cdn.net.au/21b0d1767efbf09b96ab726650be17f3?impolicy=wcms_crop_resize&cropH=3001&cropW=3001&xPos=0&yPos=0&width=862&height=862"
-  },
-  {
-    "name": "Iran international-intl-1",
-    "url": "https://stream.radiojar.com/dfnrphnr5f0uv",
-    "favicon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwY06KmNXGqMeehQD4GgOO7dhLToaQJyAlmg&s"
-  },
-  {
-    "name": "i24New TV",
-    "url": "https://bcovlive-a.akamaihd.net/d89ede8094c741b7924120b27764153c/eu-central-1/5377161796001/profile_0/chunklist.m3u8",
-    "favicon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMjOctrN6WfKnZaJf-x75qQXI5ck0mjPo_sX1rPO3YJeiysEVoFcr0z9s&s"
-  },
-  {
-    "name": "BBC World Service(England)",
-    "url": "https://vprbbc.streamguys1.com/vprbbc24.mp3",
-    "favicon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRemxDuUJL4a9LiUer56WYajglJr4tFUdj4hA&s"
-  },
-  {
-    "name": "CNN International TV(صداى تلويزيون)",
-    "url": "https://tunein.cdnstream1.com/351996.aac",
-    "favicon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9S_dwsCfddC68maB-9Ns7BWAwH_WeXCDfGg&s"
-  }
+  {"name":"BBC World Service","url":"https://vprbbc.streamguys1.com/vprbbc24.mp3","favicon":"https://upload.wikimedia.org/wikipedia/en/thumb/2/2f/BBC_World_Service_Logo.svg/320px-BBC_World_Service_Logo.svg.png"},
+  {"name":"BBC Live News","url":"https://stream.live.vc.bbcmedia.co.uk/bbc_world_service","favicon":"https://upload.wikimedia.org/wikipedia/en/thumb/2/2f/BBC_World_Service_Logo.svg/320px-BBC_World_Service_Logo.svg.png"},
+  {"name":"رادیو فرهنگ","url":"https://cdnw.telewebion.com/radiofarhang/live/playlist.m3u8","country":"Iran","countryCode":"IR","favicon":""},
+  {"name":"رادیو پیام","url":"https://cdnw.telewebion.com/radiopayam/live/playlist.m3u8","country":"Iran","countryCode":"IR","favicon":""},
+  {"name":"رادیو سلامت","url":"https://cdnw.telewebion.com/radiosalamat/live/playlist.m3u8","country":"Iran","countryCode":"IR","favicon":""},
+  {"name":"رادیو ایران","url":"https://cdnw.telewebion.com/radioiran/live/playlist.m3u8","country":"Iran","countryCode":"IR","favicon":""},
+  {"name":"رادیو جوان","url":"https://cdnw.telewebion.com/radiojavan/live/playlist.m3u8","country":"Iran","countryCode":"IR","favicon":""},
+  {"name":"Iran International","url":"https://stream.radiojar.com/dfnrphnr5f0uv","favicon":""},
+  {"name":"i24NEWS English World","url":"https://bcovlive-a.akamaihd.net/ecf224f43f3b43e69471a7b626481af0/eu-central-1/5377161796001/playlist.m3u8","favicon":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/LOGO_i24NEWS.png/512px-LOGO_i24NEWS.png"},
+  {"name":"i24NEWS Arabic","url":"https://bcovlive-a.akamaihd.net/95116e8d79524d87bf3ac20ba04241e3/eu-central-1/5377161796001/playlist.m3u8","favicon":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/LOGO_i24NEWS.png/512px-LOGO_i24NEWS.png"},
+  {"name":"Al Jazeera English Audio","url":"https://live-hls-audio-web-aje.getaj.net/VOICE-AJE/01.m3u8","favicon":""},
+  {"name":"ABC News Australia","url":"http://abc.streamguys1.com/live/newsradio/icecast.audio","favicon":""}
 ]

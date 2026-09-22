@@ -33,10 +33,14 @@ public class MainActivity extends AppCompatActivity {
     private MediaRecorder recorder; private boolean recording=false;
     private final Handler usageHandler=new Handler(Looper.getMainLooper()); private long playStartedMs=0; private int activeKbps=15; private TextView recordLight; private static final int REQ_RECORD_AUDIO=401;
     private Button eqButton;
+    private String relayBaseUrl = "";
+    private RelayDiscovery relayDiscovery;
     private final String[] newsNames={"Sputnik فارسی","BBC Persian","Iran International","VOA Persian","BBC News","NHK Japan"};
 
     @Override protected void onCreate(Bundle b){
         super.onCreate(b); setContentView(R.layout.activity_main); bind(); loadAssets(); setupSpinners(); setupLists(); setupNews(); connectController();
+        relayDiscovery = new RelayDiscovery(this);
+        relayDiscovery.discover(base -> { relayBaseUrl = base == null ? "" : base; if (!relayBaseUrl.isEmpty()) status.setText("Relay آماده • کاهش مصرف خودکار فعال است"); });
         RadioBrowserClient.countries(new RadioBrowserClient.CountryCallback(){
             public void result(List<RadioBrowserClient.CountryItem> x){runOnUiThread(()->{countries.clear();countries.addAll(x);refreshCountries();loadIran();});}
             public void error(Exception e){runOnUiThread(()->{status.setText("World search offline");loadIran();});}
@@ -51,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         volumeRuler.setListener(v->setOutputVolume(v));
         findViewById(R.id.record).setOnClickListener(v->toggleRecording());
         eqButton.setOnClickListener(v->showEqualizer());
-        findViewById(R.id.play).setOnClickListener(v->playSelected()); findViewById(R.id.stop).setOnClickListener(v->{if(controller!=null){controller.stop();} status.setText("Stopped");});
+        findViewById(R.id.play).setOnClickListener(v->playSelected()); findViewById(R.id.stop).setOnClickListener(v->{stopPlayback();});
         findViewById(R.id.fav).setOnClickListener(v->{if(selected!=null)toggleFavorite(selected);});
         findViewById(R.id.searchButton).setOnClickListener(v->doSearch()); findViewById(R.id.saveList).setOnClickListener(v->saveWorldList()); findViewById(R.id.favorites).setOnClickListener(v->showFavorites());
         setupScroll(R.id.customUp,customList,true); setupScroll(R.id.customDown,customList,false); setupScroll(R.id.iranUp,iranList,true); setupScroll(R.id.iranDown,iranList,false);
@@ -100,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void stopRecording(){try{if(recorder!=null){recorder.stop();recorder.release();}}catch(Exception ignored){}recorder=null;recording=false;recordLight.setVisibility(View.GONE);((Button)findViewById(R.id.record)).setText("REC");status.setText("Recording saved as .amr");}
     @Override public void onRequestPermissionsResult(int r,String[] p,int[] g){super.onRequestPermissionsResult(r,p,g);if(r==REQ_RECORD_AUDIO && g.length>0 && g[0]==PackageManager.PERMISSION_GRANTED)startRecording();else if(r==REQ_RECORD_AUDIO)status.setText("Microphone permission required for AMR recording");}
-    private void updateUsage(int kbps){ double mb=(kbps*60.0)/(8.0*1024.0); long elapsed=playStartedMs>0?(System.currentTimeMillis()-playStartedMs)/1000:0; long min=elapsed/60, sec=elapsed%60; usagePerMinute.setText(String.format(Locale.US,"%d:%02d • %.3f MB/min",min,sec,mb)); usageHandler.removeCallbacksAndMessages(null); usageHandler.postDelayed(()->{if(controller!=null&&controller.isPlaying())updateUsage(activeKbps);},1000); }
+    private void updateUsage(int kbps){ double mb=(kbps*60.0)/(8.0*1024.0); long elapsed=playStartedMs>0?(System.currentTimeMillis()-playStartedMs)/1000:0; long min=elapsed/60, sec=elapsed%60; usagePerMinute.setText(String.format(Locale.US,"%d:%02d • %.3f MB/min",min,sec,mb)); usageHandler.removeCallbacksAndMessages(null); if(playStartedMs>0){ usageHandler.postDelayed(()->updateUsage(activeKbps),1000); } }
     private void setupScroll(int id,ListView l,boolean up){findViewById(id).setOnClickListener(v->{int p=l.getFirstVisiblePosition();l.setSelection(Math.max(0,p+(up?-8:8)));});}
     private void loadAssets(){try{JSONArray a=new JSONArray(readAsset("stations.json"));for(int i=0;i<a.length();i++){JSONObject o=a.getJSONObject(i);custom.add(new RadioStation(o.optString("name"),o.optString("url")));}}catch(Exception ignored){} loadBuiltInFavorites(); loadFavorites();}
     private String readAsset(String n)throws Exception{BufferedReader r=new BufferedReader(new InputStreamReader(getAssets().open(n),"UTF-8"));StringBuilder b=new StringBuilder();String l;while((l=r.readLine())!=null)b.append(l);r.close();return b.toString();}
@@ -122,7 +126,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void playSelected(){
         if(selected==null){status.setText("Select a station first");return;}
-        String finalUrl = ProxyConfig.wrap(selected.url, qualityRuler.getValue());
+        int requestedKbps = qualityRuler.getValue();
+        int effectiveKbps = ProxyConfig.effectiveKbps(this, requestedKbps);
+        String finalUrl = ProxyConfig.wrap(this, relayBaseUrl, selected.url, requestedKbps);
         if(finalUrl==null || finalUrl.isEmpty()){status.setText("Invalid stream URL");return;}
         String lower=finalUrl.toLowerCase(Locale.US);
         if(lower.endsWith(".html") || lower.endsWith(".htm") || lower.contains("gurutv.online/")){
@@ -131,11 +137,20 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         if(controller==null){status.setText("Player not ready");return;}
+        try{startService(new Intent(this,RadioPlaybackService.class));}catch(Exception ignored){}
         controller.setMediaItem(MediaItem.fromUri(finalUrl));
         controller.prepare();controller.play();
-        activeKbps=qualityRuler.getValue(); playStartedMs=System.currentTimeMillis(); updateUsage(activeKbps);
+        activeKbps=effectiveKbps; if(playStartedMs==0) playStartedMs=System.currentTimeMillis(); updateUsage(activeKbps);
         nowPlaying.setText("▶ "+selected.name);
-        status.setText("Playing • Media3 HLS/HTTP • buffer 5–10 s • target "+qualityRuler.getValue()+" kbps");
+        status.setText("Playing • "+effectiveKbps+" kbps • "+(relayBaseUrl.isEmpty()?"Direct":"Auto Relay • Opus mono"));
+    }
+    private void stopPlayback(){
+        playStartedMs=0;
+        usageHandler.removeCallbacksAndMessages(null);
+        if(controller!=null){try{controller.stop();}catch(Exception ignored){}}
+        try{startService(new Intent(this,RadioPlaybackService.class).setAction(RadioPlaybackService.ACTION_USER_STOP));}catch(Exception ignored){}
+        usagePerMinute.setText("0:00 • 0.000 MB/min");
+        status.setText("Stopped");
     }
     private void loadIran(){RadioBrowserClient.byCountry("IR",new RadioBrowserClient.StationCallback(){public void result(List<RadioStation>x){runOnUiThread(()->{iran.clear();iran.addAll(x);iranAdapter.notifyDataSetChanged();});}public void error(Exception e){runOnUiThread(()->status.setText("Iran Radio list unavailable"));}});}
     private void setupSpinners(){regionSpinner.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,regions));regionSpinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener(){public void onNothingSelected(android.widget.AdapterView<?>p){}public void onItemSelected(android.widget.AdapterView<?>p,View v,int pos,long id){refreshCountries();}});countrySpinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener(){public void onNothingSelected(android.widget.AdapterView<?>p){}public void onItemSelected(android.widget.AdapterView<?>p,View v,int pos,long id){if(pos>0)doCountrySearch();}});}

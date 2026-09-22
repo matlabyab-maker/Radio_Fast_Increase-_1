@@ -17,6 +17,7 @@ import androidx.media3.session.MediaSession;
 import androidx.media3.session.MediaSessionService;
 
 public class RadioPlaybackService extends MediaSessionService {
+    public static final String ACTION_USER_STOP = "com.fast.radio.ACTION_USER_STOP";
     private ExoPlayer player;
     private MediaSession mediaSession;
     private LoudnessEnhancer loudnessEnhancer;
@@ -29,12 +30,12 @@ public class RadioPlaybackService extends MediaSessionService {
     @Override public void onCreate() {
         super.onCreate();
         DefaultLoadControl loadControl = new DefaultLoadControl.Builder()
-                .setBufferDurationsMs(10000, 30000, 3000, 5000)
+                .setBufferDurationsMs(15000, 45000, 5000, 8000)
                 .build();
         DefaultRenderersFactory renderers = new DefaultRenderersFactory(this)
                 .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER);
         DefaultHttpDataSource.Factory http = new DefaultHttpDataSource.Factory()
-                .setUserAgent("Fast Radio/3.5")
+                .setUserAgent("Fast Radio/5.0")
                 .setAllowCrossProtocolRedirects(true);
         player = new ExoPlayer.Builder(this)
                 .setRenderersFactory(renderers)
@@ -51,7 +52,10 @@ public class RadioPlaybackService extends MediaSessionService {
         if(android.os.Build.VERSION.SDK_INT>=33) registerReceiver(volumeReceiver,new IntentFilter("com.fast.radio.SET_VOLUME_GAIN"),android.content.Context.RECEIVER_NOT_EXPORTED); else registerReceiver(volumeReceiver,new IntentFilter("com.fast.radio.SET_VOLUME_GAIN"));
     }
     private void ensureEqualizer(){ try{ if(player==null)return; int sid=player.getAudioSessionId(); if(sid==android.media.audiofx.AudioEffect.ERROR)return; if(equalizer==null){ equalizer=new Equalizer(0,sid); equalizer.setEnabled(true); } }catch(Exception ignored){} }
-    @Override public int onStartCommand(Intent intent,int flags,int startId){ userStopped=false; return START_STICKY; }
+    @Override public int onStartCommand(Intent intent,int flags,int startId){
+        if(intent!=null && ACTION_USER_STOP.equals(intent.getAction())){ markStopped(); try{if(player!=null)player.stop();}catch(Exception ignored){} return START_NOT_STICKY; }
+        userStopped=false; return START_STICKY;
+    }
     public void markStopped(){ userStopped=true; if(retryHandler!=null)retryHandler.removeCallbacksAndMessages(null); }
     @Nullable @Override public MediaSession onGetSession(MediaSession.ControllerInfo controllerInfo) { return mediaSession; }
     @Override public void onDestroy() {
