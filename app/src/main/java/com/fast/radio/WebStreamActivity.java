@@ -98,7 +98,7 @@ public class WebStreamActivity extends AppCompatActivity {
     private void connectController(){SessionToken token=new SessionToken(this,new ComponentName(this,RadioPlaybackService.class));controllerFuture=new MediaController.Builder(this,token).buildAsync();controllerFuture.addListener(()->{try{controller=controllerFuture.get();}catch(Exception e){status.setText("Controller error");}},getMainExecutor());}
     private void playSelected(){
         if(selected==null){status.setText("Select a station first");return;}
-        String finalUrl = ProxyConfig.wrap(selected.url);
+        String finalUrl = ProxyConfig.wrap(this, "", selected.url, qualityRuler.getValue());
         if(finalUrl==null || finalUrl.isEmpty()){status.setText("Invalid stream URL");return;}
         String lower=finalUrl.toLowerCase(Locale.US);
         if(lower.endsWith(".html") || lower.endsWith(".htm") || lower.contains("gurutv.online/")){
