@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/rootLayout"
     android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical"
-    android:background="#020913" android:padding="6dp">
+    android:background="#FCE4EC" android:padding="6dp">
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="44dp" android:gravity="center_vertical">
         <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="0.9" android:text="Fast Radio" android:textColor="#EAF6FF" android:textSize="22sp" android:textStyle="bold"/>
@@ -9,15 +9,44 @@
         <TextView android:id="@+id/status" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ready" android:textColor="#8BA6BC" android:textSize="12sp"/>
     </LinearLayout>
 
-    <LinearLayout android:id="@+id/tvTicker" android:layout_width="match_parent" android:layout_height="54dp" android:orientation="vertical" android:background="#101B27" android:padding="3dp">
+    <LinearLayout android:id="@+id/tvTicker" android:layout_width="match_parent" android:layout_height="78dp" android:orientation="vertical" android:background="#101B27" android:padding="3dp">
         <TextView android:id="@+id/tvTickerOriginal" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:text="WORLD TV NEWS • Loading…" android:textColor="#FFFFFF" android:textSize="12sp" android:gravity="center_vertical" android:singleLine="true"/>
         <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#33495E"/>
         <TextView android:id="@+id/tvTickerPersian" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:text="ترجمه فارسی در حال آماده‌سازی…" android:textColor="#FFD43B" android:textSize="12sp" android:gravity="center_vertical" android:singleLine="true" android:textDirection="rtl"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="24dp" android:orientation="horizontal">
+            <Button android:id="@+id/tvPrev" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="PREV" android:textSize="8sp"/>
+            <Button android:id="@+id/tvPause" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="PAUSE" android:textSize="8sp"/>
+            <Button android:id="@+id/tvStop" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="STOP" android:textSize="8sp"/>
+            <Button android:id="@+id/tvNext" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="NEXT" android:textSize="8sp"/>
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout android:id="@+id/webTicker" android:layout_width="match_parent" android:layout_height="44dp" android:orientation="vertical" android:background="#0D1722" android:padding="2dp">
+    <LinearLayout android:id="@+id/webTicker" android:layout_width="match_parent" android:layout_height="68dp" android:orientation="vertical" android:background="#0D1722" android:padding="2dp">
         <TextView android:id="@+id/webTickerTitle" android:layout_width="match_parent" android:layout_height="15dp" android:text="WEB NEWS • Loading…" android:textColor="#7FD6FF" android:textSize="9sp" android:gravity="center_vertical" android:singleLine="true"/>
         <TextView android:id="@+id/webTickerText" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:text="خبرهای صفحه اول وب‌سایت‌ها در حال دریافت…" android:textColor="#FFFFFF" android:textSize="11sp" android:gravity="center_vertical" android:singleLine="true"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="22dp" android:orientation="horizontal">
+            <Button android:id="@+id/webPrev" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="PREV" android:textSize="8sp"/>
+            <Button android:id="@+id/webPause" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="PAUSE" android:textSize="8sp"/>
+            <Button android:id="@+id/webStop" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="STOP" android:textSize="8sp"/>
+            <Button android:id="@+id/webNext" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="NEXT" android:textSize="8sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/publicInfoTicker" android:layout_width="match_parent" android:layout_height="72dp" android:orientation="horizontal" android:background="#101B27" android:padding="2dp">
+        <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:orientation="vertical" android:background="#0D1722" android:padding="3dp">
+            <TextView android:layout_width="match_parent" android:layout_height="18dp" android:text="ایران • هواشناسی و زمین‌لرزه +۴" android:textColor="#7FD6FF" android:textStyle="bold" android:textSize="10sp" android:gravity="center"/>
+            <TextView android:id="@+id/publicIran" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:text="در حال دریافت…" android:textColor="#FFFFFF" android:textSize="10sp" android:gravity="center_vertical" android:singleLine="true" android:textDirection="rtl"/>
+        </LinearLayout>
+        <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#33495E"/>
+        <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:orientation="vertical" android:background="#0D1722" android:padding="3dp">
+            <TextView android:layout_width="match_parent" android:layout_height="18dp" android:text="جهان • زمین‌لرزه +۵" android:textColor="#7FD6FF" android:textStyle="bold" android:textSize="10sp" android:gravity="center"/>
+            <TextView android:id="@+id/publicWorld" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:text="در حال دریافت…" android:textColor="#FFFFFF" android:textSize="10sp" android:gravity="center_vertical" android:singleLine="true"/>
+        </LinearLayout>
+        <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#33495E"/>
+        <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:orientation="vertical" android:background="#0D1722" android:padding="3dp">
+            <TextView android:layout_width="match_parent" android:layout_height="18dp" android:text="اقتصاد • یارانه و معیشت" android:textColor="#FFB74D" android:textStyle="bold" android:textSize="10sp" android:gravity="center"/>
+            <TextView android:id="@+id/publicEconomy" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:text="در حال دریافت…" android:textColor="#FFFFFF" android:textSize="10sp" android:gravity="center_vertical" android:singleLine="true" android:textDirection="rtl"/>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal" android:layout_marginTop="4dp" android:layout_marginBottom="4dp">
@@ -36,9 +65,9 @@
         <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:orientation="vertical" android:background="#071525" android:padding="2dp">
             <TextView android:layout_width="match_parent" android:layout_height="24dp" android:text="WORLD RADIO" android:textColor="#39B9FF" android:textStyle="bold" android:gravity="center" android:textSize="12sp"/>
             <LinearLayout android:layout_width="match_parent" android:layout_height="30dp"><Spinner android:id="@+id/regionSpinner" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/><Spinner android:id="@+id/countrySpinner" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1.25"/></LinearLayout>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="30dp"><EditText android:id="@+id/search" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:hint="Search country / station" android:textColor="#FFFFFF" android:textColorHint="#71879C" android:singleLine="true"/><Button android:id="@+id/searchButton" android:layout_width="72dp" android:layout_height="match_parent" android:text="SEARCH" android:textSize="10sp"/></LinearLayout>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="28dp"><Button android:id="@+id/saveList" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="SAVE" android:textSize="10sp"/><Button android:id="@+id/favorites" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="★ FAV" android:textSize="10sp"/></LinearLayout>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="28dp"><Button android:id="@+id/importButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="IMPORT" android:textSize="10sp"/><Button android:id="@+id/savedListsButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="SAVED" android:textSize="10sp"/></LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="60dp"><EditText android:id="@+id/search" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:hint="Search country / station" android:textColor="#FFFFFF" android:textColorHint="#71879C" android:singleLine="true"/><ImageButton android:id="@+id/searchButton" android:layout_width="58dp" android:layout_height="match_parent" android:src="@drawable/ic_search" android:contentDescription="جستجو" android:background="@android:color/transparent" android:scaleType="centerInside" android:padding="10dp"/></LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="56dp"><Button android:id="@+id/saveList" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="SAVE" android:textSize="10sp"/><Button android:id="@+id/favorites" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="★ FAV" android:textSize="10sp"/></LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="56dp"><Button android:id="@+id/importButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="IMPORT" android:textSize="10sp"/><Button android:id="@+id/savedListsButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="SAVED" android:textSize="10sp"/></LinearLayout>
             <ListView android:id="@+id/worldList" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:divider="#173A57" android:dividerHeight="1dp"/>
         </LinearLayout>
     </LinearLayout>
@@ -59,14 +88,17 @@
         </LinearLayout>
         <LinearLayout android:layout_width="150dp" android:layout_height="match_parent" android:orientation="vertical" android:background="#0B1522" android:padding="2dp">
             <TextView android:layout_width="match_parent" android:layout_height="22dp" android:text="مصرف رادیو / 1 دقیقه" android:textColor="#FF9B22" android:textStyle="bold" android:gravity="center" android:textSize="11sp"/>
-            <TextView android:id="@+id/usagePerMinute" android:layout_width="match_parent" android:layout_height="34dp" android:text="0:00 • 0.110 MB/min" android:textColor="#FFFFFF" android:textSize="15sp" android:gravity="center"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="34dp" android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:id="@+id/usagePerMinute" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1.35" android:text="0.000 MB/min" android:textColor="#FFFFFF" android:textSize="13sp" android:gravity="center"/>
+                <TextView android:id="@+id/usageTimer" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="0.65" android:text="00:00" android:textColor="#FFB74D" android:textSize="15sp" android:textStyle="bold" android:gravity="center"/>
+            </LinearLayout>
             <View android:id="@+id/usageLine" android:layout_width="match_parent" android:layout_height="8dp" android:background="#FF7A00"/>
             <TextView android:layout_width="match_parent" android:layout_height="24dp" android:text="برآورد بر اساس bitrate" android:textColor="#8BA6BC" android:textSize="10sp" android:gravity="center"/>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="72dp" android:orientation="horizontal" android:background="#06111D" android:padding="5dp">
-        <TextView android:id="@+id/nowPlaying" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1.4" android:text="No station selected" android:textColor="#FFFFFF" android:textSize="14sp" android:gravity="center_vertical"/>
+        <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1.35" android:orientation="vertical" android:gravity="center_vertical" android:paddingStart="4dp"><TextView android:id="@+id/nowPlaying" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:text="No station selected" android:textColor="#FFFFFF" android:textSize="14sp" android:gravity="center_vertical"/><TextView android:id="@+id/streamKbps" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:text="Stream: -- kbps" android:textColor="#39B9FF" android:textSize="13sp" android:textStyle="bold" android:gravity="center_vertical"/><TextView android:id="@+id/usage12h" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:text="12 ساعت: -- MB" android:textColor="#FFB74D" android:textSize="12sp" android:gravity="center_vertical"/></LinearLayout>
         <Button android:id="@+id/play" android:layout_width="92dp" android:layout_height="match_parent" android:text="PLAY"/><Button android:id="@+id/stop" android:layout_width="92dp" android:layout_height="match_parent" android:text="STOP"/><Button android:id="@+id/record" android:layout_width="92dp" android:layout_height="match_parent" android:text="REC"/><TextView android:id="@+id/recordLight" android:layout_width="14dp" android:layout_height="14dp" android:layout_gravity="center_vertical" android:layout_marginStart="3dp" android:background="#FF0000" android:visibility="gone"/><Button android:id="@+id/equalizer" android:layout_width="92dp" android:layout_height="match_parent" android:text="EQ"/><Button android:id="@+id/fav" android:layout_width="60dp" android:layout_height="match_parent" android:text="★"/>
     </LinearLayout>
 </LinearLayout>

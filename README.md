@@ -1,3 +1,9 @@
+## Fast Radio 5.1 UI/news controls
+- Pale pink main background.
+- Separate orange stopwatch beside the per-minute usage estimate.
+- TV/news ticker sources expanded and given PREV / PAUSE / STOP / NEXT controls. STOP disconnects the active feed; PAUSE freezes rotation without disconnecting.
+- Website-news ticker has the same controls.
+
 # Fast Radio 5.0 — Automatic Relay
 
 Fixes based on the 2026-09-22 device screenshot and requested changes:
