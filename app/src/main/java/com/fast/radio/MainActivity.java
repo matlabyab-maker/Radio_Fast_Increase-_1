@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         long elapsedMs=usageAccumulatedMs + (usagePlaying && usageStartedMs>0 ? System.currentTimeMillis()-usageStartedMs : 0);
         long elapsed=Math.max(0,elapsedMs/1000);
         long min=elapsed/60, sec=elapsed%60;
-        usagePerMinute.setText(String.format(Locale.US,"%.3f MB/min",mbPerMinute));
+        double kbPerMinute=(activeKbps*60.0)/8.0; usagePerMinute.setText(String.format(Locale.US,"%.1f KB/min • %.3f MB/min",kbPerMinute,mbPerMinute));
         TextView timer=findViewById(R.id.usageTimer);
         if(timer!=null) timer.setText(String.format(Locale.US,"%02d:%02d",min,sec));
         if(streamKbps!=null){
@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
         if(controller!=null){try{controller.stop();}catch(Exception ignored){}}
         if(audioDance!=null)audioDance.stop();
         try{startService(new Intent(this,RadioPlaybackService.class).setAction(RadioPlaybackService.ACTION_USER_STOP));}catch(Exception ignored){}
-        usagePerMinute.setText("0.000 MB/min");
+        usagePerMinute.setText("0.0 KB/min • 0.000 MB/min");
         TextView timer=findViewById(R.id.usageTimer); if(timer!=null) timer.setText("00:00");
         if(streamKbps!=null) streamKbps.setText("Stream: -- kbps");
         if(usage12h!=null) usage12h.setText("12 ساعت: -- MB");
