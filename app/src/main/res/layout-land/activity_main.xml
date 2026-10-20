@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="#FCE4EC">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="#050B14">
 <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="8dp">
-    <LinearLayout android:layout_width="match_parent" android:layout_height="54dp" android:gravity="center_vertical">
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="0.9" android:text="Fast Radio" android:textColor="#102A43" android:textSize="25sp" android:textStyle="bold"/>
-        <TextView android:id="@+id/persianCalendar" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1.1" android:text="تقویم فارسی" android:textColor="#B58F00" android:textSize="16sp" android:textStyle="bold" android:gravity="center" android:singleLine="true"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="54dp" android:gravity="center_vertical" android:background="#06182B" android:paddingStart="10dp" android:paddingEnd="10dp">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="0.9" android:text="Fast Radio" android:textColor="#EAF6FF" android:textSize="25sp" android:textStyle="bold"/>
+        <TextView android:id="@+id/persianCalendar" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1.1" android:text="تقویم فارسی" android:textColor="#FFD43B" android:textSize="16sp" android:textStyle="bold" android:gravity="center" android:singleLine="true"/>
         <TextView android:id="@+id/status" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ready" android:textColor="#8BA6BC" android:textSize="13sp"/>
     </LinearLayout>
     <LinearLayout android:id="@+id/tvTicker" android:layout_width="match_parent" android:layout_height="82dp" android:orientation="vertical" android:background="#101B27" android:padding="3dp">
